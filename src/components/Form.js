@@ -19,9 +19,21 @@ const Button = styled.input`
   }
 `;
 
+const CURRENCIES = [
+  { code: "USD", name: "United States dollar" },
+  { code: "EUR", name: "Euro" },
+  { code: "GBP", name: "Pound sterling" },
+];
+
 const Form = () => {
-  const [state, SelectCurrency] = useCurrency();
+  const [state, SelectCurrency] = useCurrency(
+    "Select a currency",
+    "",
+    CURRENCIES
+  );
+
   console.log(state);
+
   return (
     <form>
       <SelectCurrency />
