@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import useCurrency from "../hooks/useCurrency";
 
 const Button = styled.input`
   margin-top: 20px;
@@ -19,8 +20,11 @@ const Button = styled.input`
 `;
 
 const Form = () => {
+  const [state, SelectCurrency] = useCurrency();
+  console.log(state);
   return (
     <form>
+      <SelectCurrency />
       <Button type="submit" value="send" />
     </form>
   );
