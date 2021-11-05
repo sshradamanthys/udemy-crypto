@@ -3,6 +3,7 @@ import axios from "axios";
 import styled from "@emotion/styled";
 import useCurrency from "../hooks/useCurrency";
 import useCrypto from "../hooks/useCrypto";
+import Error from "./Error";
 
 const Button = styled.input`
   margin-top: 20px;
@@ -33,7 +34,11 @@ const API_KEY =
 const URL = `https://min-api.cryptocompare.com/data/top/mktcapfull?limit=10&tsym=USD&api_key=${API_KEY}`;
 
 const Form = () => {
+  // States
   const [cryptos, setCryptos] = useState([]);
+  const [error, setError] = useState(false);
+
+  // Custom Hooks
   const [currency, SelectCurrency] = useCurrency(
     "Select a currency",
     "",
@@ -44,6 +49,7 @@ const Form = () => {
 
   const [crypto, SelectCrypto] = useCrypto("Select a crypto", "", cryptos);
 
+  // Effects
   useEffect(() => {
     const fetchAPI = async () => {
       const res = await axios.get(URL);
@@ -54,9 +60,21 @@ const Form = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (currency === "" || crypto === "") {
+      setError(true);
+      return;
+    }
+
+    setError(false);
+  };
+
   console.log(crypto);
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
+      {error ? <Error msg="All fields are required" /> : null}
       <SelectCurrency />
       <SelectCrypto />
       <Button type="submit" value="send" />
