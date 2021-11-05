@@ -30,7 +30,7 @@ const useCrypto = (label, initialState, cryptos) => {
       <Select onChange={(e) => setCrypto(e.target.value)} value={crypto}>
         <option value="">--select--</option>
         {cryptos.map(({ CoinInfo }) => (
-          <option key={CoinInfo.id} value={CoinInfo.Name}>
+          <option key={CoinInfo.Id} value={CoinInfo.Name}>
             {CoinInfo.FullName}
           </option>
         ))}

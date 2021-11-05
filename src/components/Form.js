@@ -23,17 +23,13 @@ const Button = styled.input`
   }
 `;
 
-const CURRENCIES = [
+const currencies = [
   { code: "USD", name: "United States dollar" },
   { code: "EUR", name: "Euro" },
   { code: "GBP", name: "Pound sterling" },
 ];
 
-const API_KEY =
-  "fc2d8e6a12f458e1f44683e78d6cca1c8211eac061439f216a4b5da750d35a17";
-const URL = `https://min-api.cryptocompare.com/data/top/mktcapfull?limit=10&tsym=USD&api_key=${API_KEY}`;
-
-const Form = () => {
+const Form = ({ setCurrency, setCrypto }) => {
   // States
   const [cryptos, setCryptos] = useState([]);
   const [error, setError] = useState(false);
@@ -42,14 +38,13 @@ const Form = () => {
   const [currency, SelectCurrency] = useCurrency(
     "Select a currency",
     "",
-    CURRENCIES
+    currencies
   );
-
-  console.log(currency);
-
   const [crypto, SelectCrypto] = useCrypto("Select a crypto", "", cryptos);
 
   // Effects
+  const URL =
+    "https://min-api.cryptocompare.com/data/top/mktcapfull?limit=10&tsym=USD";
   useEffect(() => {
     const fetchAPI = async () => {
       const res = await axios.get(URL);
@@ -69,9 +64,10 @@ const Form = () => {
     }
 
     setError(false);
+    setCurrency(currency);
+    setCrypto(crypto);
   };
 
-  console.log(crypto);
   return (
     <form onSubmit={handleSubmit}>
       {error ? <Error msg="All fields are required" /> : null}
