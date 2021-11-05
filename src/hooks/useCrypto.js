@@ -21,24 +21,24 @@ const Select = styled.select`
   font-size: 1.2rem;
 `;
 
-const useCurrency = (label, initialState, currencies) => {
-  const [currency, setCurrency] = useState(initialState);
+const useCrypto = (label, initialState, cryptos) => {
+  const [crypto, setCrypto] = useState(initialState);
 
-  const SelectCurrency = () => (
+  const SelectCrypto = () => (
     <>
       <Label>{label}</Label>
-      <Select onChange={(e) => setCurrency(e.target.value)} value={currency}>
+      <Select onChange={(e) => setCrypto(e.target.value)} value={crypto}>
         <option value="">--select--</option>
-        {currencies.map(({ code, name }) => (
-          <option key={code} value={name}>
-            {name}
+        {cryptos.map(({ CoinInfo }) => (
+          <option key={CoinInfo.id} value={CoinInfo.Name}>
+            {CoinInfo.FullName}
           </option>
         ))}
       </Select>
     </>
   );
 
-  return [currency, SelectCurrency];
+  return [crypto, SelectCrypto];
 };
 
-export default useCurrency;
+export default useCrypto;
