@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Form from "./components/Form";
 import Quotation from "./components/Quotation";
+import Spinner from "./components/Spinner";
 import styled from "@emotion/styled";
 import image from "./cryptomonedas.png";
 
@@ -42,7 +43,7 @@ function App() {
   const [currency, setCurrency] = useState("");
   const [crypto, setCrypto] = useState("");
   const [result, setResult] = useState({});
-  // const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${crypto}&tsyms=${currency}`;
 
@@ -50,10 +51,20 @@ function App() {
     const fetchAPI = async () => {
       if (currency === "") return;
       const res = await axios.get(url);
-      setResult(res.data.DISPLAY[crypto][currency]);
+
+      setLoading(true);
+
+      setTimeout(() => {
+        setLoading(false);
+        setResult(res.data.DISPLAY[crypto][currency]);
+      }, 3000);
     };
+
     fetchAPI();
   }, [currency, crypto, url]);
+
+  const component = loading ? <Spinner /> : <Quotation result={result} />;
+
   return (
     <Container>
       <div>
@@ -62,7 +73,7 @@ function App() {
       <div>
         <Heading>Cryptocurrency</Heading>
         <Form setCurrency={setCurrency} setCrypto={setCrypto} />
-        <Quotation result={result} />
+        {component}
       </div>
     </Container>
   );
